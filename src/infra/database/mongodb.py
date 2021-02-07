@@ -8,9 +8,12 @@ DATABASE_NAME = 'augustoliksdb'
 COLLECTION_REGIONS = 'regions'
 COLLECTIONS_EMPLOYERS = 'employers'
 
+db_driver: MongoClient
 
-def make_database(database_properties) -> MongoClient:
-    return MongoClient(**database_properties)
+
+def make_database(database_properties):
+    global db_driver
+    db_driver = MongoClient(**database_properties)
 
 
 def setup_database(db: MongoClient):
@@ -19,11 +22,11 @@ def setup_database(db: MongoClient):
     database[COLLECTIONS_EMPLOYERS].create_index([("coverageAddress", GEO2D)])
 
 
-def create_employer(db: MongoClient, employer: dict) -> str:
-    identifier = db[COLLECTIONS_EMPLOYERS].insert(employer)
-    return identifier
+def create_employer(employer: entities.Employer) -> str:
+    database = db_driver[DATABASE_NAME]
+    identifier = database[COLLECTIONS_EMPLOYERS].insert_one(employer.dict()).inserted_id
+    return str(identifier)
 
 
-def get_nearest_employer_in_coverage_area(db: MongoClient, employer: entities.Employer) -> str:
-    identifier = db[COLLECTIONS_EMPLOYERS].get(employer)
-    return identifier
+def get_nearest_employer_in_coverage_area(employer: entities.Employer) -> str:
+    ...

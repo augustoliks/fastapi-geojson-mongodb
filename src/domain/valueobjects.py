@@ -1,10 +1,5 @@
-from pydantic import (
-    BaseModel,
-    Field
-)
-from typing import (
-    List
-)
+from pydantic import BaseModel
+from typing import List
 
 
 class Coordinate(BaseModel):
@@ -13,10 +8,10 @@ class Coordinate(BaseModel):
 
 
 class Region(BaseModel):
-    type: str = Field("MultiPolygon", const=True)
+    type = "MultiPolygon"
     coverageArea: List[List[Coordinate]]
 
 
 class Address(BaseModel):
-    type: str = Field("Point", const=True)
+    type = "Point"
     coordinate: Coordinate
