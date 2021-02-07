@@ -1,6 +1,8 @@
 from . import valueobjects
+from validate_docbr import CNPJ
 from pydantic import (
-    BaseModel
+    BaseModel,
+    validator
 )
 
 
@@ -30,3 +32,11 @@ class Employer(BaseModel):
     document: str
     address: valueobjects.Address
     coverageArea: valueobjects.Region
+
+    @validator('document')
+    def validate_document(cls, v):
+        cnpj = CNPJ()
+        if not cnpj.validate(v):
+            raise ValueError('cnpj is not valid')
+        else:
+            return v.title()

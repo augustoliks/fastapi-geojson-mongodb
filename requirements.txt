@@ -4,3 +4,4 @@ fastapi
 dynaconf
 geojson-pydantic
 uvicorn
+validate-docbr
