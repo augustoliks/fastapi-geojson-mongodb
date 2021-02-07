@@ -1,1 +1,6 @@
 pymongo
+pydantic
+fastapi
+dynaconf
+geojson-pydantic
+uvicorn

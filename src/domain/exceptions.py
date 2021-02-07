@@ -1,0 +1,2 @@
+class DomainBaseException(RuntimeError):
+    pass
