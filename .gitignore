@@ -212,3 +212,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+
+# Ignore dynaconf secret files
+.secrets.*

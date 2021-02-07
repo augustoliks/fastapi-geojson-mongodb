@@ -32,10 +32,11 @@ def configure_routers(app: FastAPI):
         return domain.create_new_employer(employer)
 
     @app.get("/employer")
-    async def get_employer(point: valueobjects.Point):
+    async def get_employer(point: valueobjects.Address):
         return domain.get_employer_most_nearest(point)
 
 
 def create_app():
     app = FastAPI()
     configure_routers(app)
+    return app

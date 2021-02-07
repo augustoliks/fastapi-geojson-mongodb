@@ -10,4 +10,4 @@ STRATEGY_HIGH_ORDER = {
 
 
 def create_app(ui_module: str):
-    return STRATEGY_HIGH_ORDER[ui_module]
+    return STRATEGY_HIGH_ORDER[ui_module].create_app()

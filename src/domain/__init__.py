@@ -10,5 +10,5 @@ def create_new_employer(employer: entities.Employer) -> dict:
     return {'status': 'employer saved with success', 'employer_id': new_employer.id}
 
 
-def get_employer_most_nearest(point: valueobjects.Point):
+def get_employer_most_nearest(point: valueobjects.Address):
     db.get_nearest_employer_in_coverage_area(point)

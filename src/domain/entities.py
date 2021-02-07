@@ -28,5 +28,5 @@ class Employer(BaseModel):
     tradingName: str
     ownerName: str
     document: str
-    address: valueobjects.Point
-    coverageArea: valueobjects.MultiPolygon
+    address: valueobjects.Address
+    coverageArea: valueobjects.Region

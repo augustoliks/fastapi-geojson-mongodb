@@ -12,7 +12,7 @@ $(VENV)/bin/activate: requirements.txt
 venv: $(VENV)/bin/activate
 
 run: venv
-	./$(VENV)/bin/python3 app.py
+	cd src; ../$(VENV)/bin/uvicorn main:create_app
 
 clean:
 	rm -rf $(VENV)

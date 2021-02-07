@@ -6,4 +6,5 @@ STRATEGY_DB_HIGH_ORDER = {
 }
 
 db_implementation = STRATEGY_DB_HIGH_ORDER[settings['database']['type']]
-db = db_implementation.make_database(**settings['database']['properties'])
+db = db_implementation.make_database(settings['database']['properties'])
+db_implementation.setup_database(db)
