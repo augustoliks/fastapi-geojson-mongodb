@@ -10,14 +10,14 @@ class Coordinate(BaseModel):
     latitude: float
 
     @validator('latitude')
-    def check_latitude(self, v):
+    def check_latitude(cls, v):
         if validate_latitude(v):
             return v.title()
         else:
             raise ValueError('latitude value is not valid, accept value in range -90..90')
 
     @validator('longitude')
-    def check_longitude(self, v):
+    def check_longitude(cls, v):
         if validate_longitude(v):
             return v.title()
         else:
@@ -29,7 +29,7 @@ class Region(BaseModel):
     coverageArea: List[List[Coordinate]]
 
     @validator('coverageArea')
-    def check_longitude(self, v):
+    def check_longitude(cls, v):
         if validate_multi_polygon(v):
             return v.title()
         else:

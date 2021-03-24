@@ -30,11 +30,11 @@ def configure_routers(app: FastAPI):
             content=jsonable_encoder({"detail": str(exc)})
         )
 
-    @app.post("/employer")
+    @app.post("/employer", response_model=entities.Employer)
     async def create_employer(employer: entities.Employer) -> entities.Employer:
         return services.create_new_employer(employer)
 
-    @app.get("/employer")
+    @app.get("/employer", response_model=entities.Employer)
     async def get_employer(point: valueobjects.Address) -> entities.Employer:
         return services.get_employer_most_nearest(point)
 

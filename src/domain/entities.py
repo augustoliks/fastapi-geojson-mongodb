@@ -1,8 +1,10 @@
 from domain import valueobjects
 from validate_docbr import CNPJ
+from typing import Optional
 from pydantic import (
     BaseModel,
-    validator
+    validator,
+    Field
 )
 
 
@@ -26,7 +28,7 @@ class Employer(BaseModel):
       }
     }
     """
-    id: int
+    id: Optional[str] = Field(alias='_id')
     tradingName: str
     ownerName: str
     document: str
@@ -41,14 +43,14 @@ class Employer(BaseModel):
             raise ValueError('cnpj is not valid')
 
     @validator('ownerName')
-    def check_owner_name(self, v):
+    def check_owner_name(cls, v):
         if validate_names(v):
             return v.title()
         else:
             raise ValueError('Owner Name is not valid, should one or more words')
 
     @validator('tradingName')
-    def check_trading_name(self, v):
+    def check_trading_name(cls, v):
         if validate_names(v):
             return v.title()
         else:
