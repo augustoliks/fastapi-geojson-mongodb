@@ -1,10 +1,4 @@
-[application]
-ui_mode = "ws"
-
-[database]
-type = "mongodb"
-
-[database.properties]
+[db]
 host="127.0.0.1"
 port=27017
 username="admin"

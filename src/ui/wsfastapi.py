@@ -1,3 +1,10 @@
+from domain import (
+    entities,
+    valueobjects,
+    exceptions,
+    services
+)
+
 from fastapi import (
     Request,
     FastAPI,
@@ -6,10 +13,6 @@ from fastapi import (
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-import domain
-from domain.exceptions import DomainBaseException
-from domain import valueobjects
-from domain import entities
 
 
 def configure_routers(app: FastAPI):
@@ -21,19 +24,19 @@ def configure_routers(app: FastAPI):
         )
 
     @app.exception_handler(RequestValidationError)
-    async def validation_exception_handler(request: Request, exc: DomainBaseException):
+    async def validation_exception_handler(request: Request, exc: exceptions.DomainBaseException):
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content=jsonable_encoder({"detail": str(exc)})
         )
 
     @app.post("/employer")
-    async def create_employer(employer: entities.Employer):
-        return domain.create_new_employer(employer)
+    async def create_employer(employer: entities.Employer) -> entities.Employer:
+        return services.create_new_employer(employer)
 
     @app.get("/employer")
-    async def get_employer(point: valueobjects.Address):
-        return domain.get_employer_most_nearest(point)
+    async def get_employer(point: valueobjects.Address) -> entities.Employer:
+        return services.get_employer_most_nearest(point)
 
 
 def create_app():

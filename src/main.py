@@ -1,7 +1,7 @@
-from conf import settings
-from ui import create_app
-
-app = create_app(settings['application']['ui_mode'])
-
+from ui.wsfastapi import create_app
 import uvicorn
-uvicorn.run(app)
+
+
+def run():
+    app = create_app()
+    uvicorn.run(app=app, host='0.0.0.0', port=5000)

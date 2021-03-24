@@ -1,4 +1,4 @@
-from . import valueobjects
+from domain import valueobjects
 from validate_docbr import CNPJ
 from pydantic import (
     BaseModel,
@@ -34,9 +34,37 @@ class Employer(BaseModel):
     coverageArea: valueobjects.Region
 
     @validator('document')
-    def validate_document(cls, v):
-        cnpj = CNPJ()
-        if not cnpj.validate(v):
-            raise ValueError('cnpj is not valid')
-        else:
+    def check_document(cls, v):
+        if validate_document(v):
             return v.title()
+        else:
+            raise ValueError('cnpj is not valid')
+
+    @validator('ownerName')
+    def check_owner_name(self, v):
+        if validate_names(v):
+            return v.title()
+        else:
+            raise ValueError('Owner Name is not valid, should one or more words')
+
+    @validator('tradingName')
+    def check_trading_name(self, v):
+        if validate_names(v):
+            return v.title()
+        else:
+            raise ValueError('Owner Name is not valid, should one or more words')
+
+
+def validate_document(document: str) -> bool:
+    cnpj = CNPJ()
+    if not cnpj.validate(document):
+        return True
+    else:
+        return False
+
+
+def validate_names(owner_name: str) -> bool:
+    if len(owner_name.split(' ')) >= 2:
+        return True
+    else:
+        return False
