@@ -27,6 +27,31 @@ class Employer(BaseModel):
         "coordinates": [-46.57421, -21.785741]
       }
     }
+
+    {
+      "_id": "string",
+      "tradingName": "string",
+      "ownerName": "string",
+      "document": "string",
+      "address": {
+        "coordinate": {
+          "longitude": 0,
+          "latitude": 0
+        },
+        "type": "Point"
+      },
+      "coverageArea": {
+        "coverageArea": [
+          [
+            {
+              "longitude": 0,
+              "latitude": 0
+            }
+          ]
+        ],
+        "type": "MultiPolygon"
+      }
+    }
     """
     id: Optional[str] = Field(alias='_id')
     tradingName: str

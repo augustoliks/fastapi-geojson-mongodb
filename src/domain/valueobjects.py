@@ -1,32 +1,18 @@
 from typing import List
+import geojson
 from pydantic import (
     BaseModel,
     validator
 )
 
 
-class Coordinate(BaseModel):
-    longitude: float
-    latitude: float
-
-    @validator('latitude')
-    def check_latitude(cls, v):
-        if validate_latitude(v):
-            return v.title()
-        else:
-            raise ValueError('latitude value is not valid, accept value in range -90..90')
-
-    @validator('longitude')
-    def check_longitude(cls, v):
-        if validate_longitude(v):
-            return v.title()
-        else:
-            raise ValueError('longitude value is not valid, accept value in range -180..180')
-
-
 class Region(BaseModel):
     type = "MultiPolygon"
-    coverageArea: List[List[Coordinate]]
+    coverageArea: List[
+        List[
+            List[float, float]
+        ]
+    ]
 
     @validator('coverageArea')
     def check_longitude(cls, v):
@@ -38,28 +24,19 @@ class Region(BaseModel):
 
 class Address(BaseModel):
     type = "Point"
-    coordinate: Coordinate
+    coordinates: List[float, float]
 
 
-def validate_latitude(latitude: float):
-    """according https://pt.wikipedia.org/wiki/Latitude"""
-    if latitude in range(-90, 90):
-        return True
-    else:
-        return False
-
-
-def validate_longitude(longitude: float) -> bool:
-    """according https://pt.wikipedia.org/wiki/ Longitude"""
-    if longitude in range(-180, 180):
-        return True
-    else:
-        return False
-
-
-def validate_multi_polygon(multipolygon: List[List[Coordinate]]) -> bool:
+def validate_multi_polygon(multipolygon_coordinates: List[List[List[float, float]]]):
     """according: https://en.wikipedia.org/wiki/GeoJSON"""
-    if multipolygon[0] == multipolygon[:-1]:
-        return True
-    else:
-        return False
+    multipolygon = geojson.MultiPolygon(multipolygon_coordinates)
+
+    if not multipolygon.is_valid:
+        raise ValueError('Multipolygon não válido')
+
+    for level_01 in multipolygon.coordinates:
+        for level_02 in level_01:
+            latitude_valid = level_02[0] in range(-90, 90)
+            longitude_valid = level_02[1] in range(-180, 180)
+            if not latitude_valid or not longitude_valid:
+                raise ValueError('coordenadas nao validas')

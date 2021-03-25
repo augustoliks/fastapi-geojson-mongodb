@@ -11,7 +11,6 @@ from pymongo import (
 
 
 DB_NAME = 'delivery'
-COL_REGIONS = 'regions'
 COL_EMPLOYERS = 'employers'
 
 db_client = MongoClient(**settings['db'])
@@ -20,8 +19,8 @@ db = db_client[DB_NAME]
 
 
 def setup_database():
-    db[COL_REGIONS].create_index([("address", GEOSPHERE)])
-    db[COL_EMPLOYERS].create_index([("coverageAddress", GEOSPHERE)])
+    db[COL_EMPLOYERS].create_index([("coverageArea", GEOSPHERE)])
+    db[COL_EMPLOYERS].create_index([("address", GEOSPHERE)])
 
 
 def get_employer(field: dict) -> entities.Employer:
