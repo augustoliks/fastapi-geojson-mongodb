@@ -28,10 +28,9 @@ def get_employer(field: dict) -> entities.Employer:
     return entities.Employer(**obj)
 
 
-def create_employer(employer: entities.Employer) -> entities.Employer:
-    obj = db[COL_EMPLOYERS].insert_one(employer.dict(exclude={'id'}))
-    return entities.Employer(**obj)
+def create_employer(employer: entities.Employer):
+    db[COL_EMPLOYERS].insert_one(employer.dict(exclude={'id'}))
 
 
-def get_nearest_employer_in_coverage_area(address: valueobjects.Address) -> entities.Employer:
+def get_nearest_employer_in_coverage_area(address: valueobjects.Point) -> entities.Employer:
     ...

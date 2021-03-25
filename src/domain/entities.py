@@ -27,38 +27,13 @@ class Employer(BaseModel):
         "coordinates": [-46.57421, -21.785741]
       }
     }
-
-    {
-      "_id": "string",
-      "tradingName": "string",
-      "ownerName": "string",
-      "document": "string",
-      "address": {
-        "coordinate": {
-          "longitude": 0,
-          "latitude": 0
-        },
-        "type": "Point"
-      },
-      "coverageArea": {
-        "coverageArea": [
-          [
-            {
-              "longitude": 0,
-              "latitude": 0
-            }
-          ]
-        ],
-        "type": "MultiPolygon"
-      }
-    }
     """
-    id: Optional[str] = Field(alias='_id')
+    # id: Optional[str]
     tradingName: str
     ownerName: str
     document: str
-    address: valueobjects.Address
-    coverageArea: valueobjects.Region
+    address: valueobjects.Point
+    coverageArea: valueobjects.MultiPolygon
 
     @validator('document')
     def check_document(cls, v):
