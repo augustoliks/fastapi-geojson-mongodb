@@ -31,12 +31,21 @@ def create_employer(employer: entities.Employer):
 
 
 def get_nearest_employer_in_coverage_area(address: valueobjects.Point) -> entities.Employer:
-    db.neighborhoods.findOne({
-        'coverageArea': {
-            '$geoIntersects': {
-                '$geometry': {
-                    address
+    return db[COL_EMPLOYERS].find({
+        "$and": [
+            {
+                "coverageArea": {
+                    "$geoIntersects": {
+                        "$geometry": address.dict()
+                    }
+                }
+            },
+            {
+                "address": {
+                    "$nearSphere": {
+                        "$geometry": address.dict()
+                    }
                 }
             }
-        }
-    })
+        ]
+    })[0]

@@ -28,7 +28,7 @@ class Employer(BaseModel):
       }
     }
     """
-    # id: Optional[str]
+    id: str
     tradingName: str
     ownerName: str
     document: str
