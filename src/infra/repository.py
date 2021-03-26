@@ -17,10 +17,8 @@ db_client = MongoClient(**settings['db'])
 
 db = db_client[DB_NAME]
 
-
-def setup_database():
-    db[COL_EMPLOYERS].create_index([("coverageArea", GEOSPHERE)])
-    db[COL_EMPLOYERS].create_index([("address", GEOSPHERE)])
+db[COL_EMPLOYERS].create_index([("coverageArea", GEOSPHERE)])
+db[COL_EMPLOYERS].create_index([("address", GEOSPHERE)])
 
 
 def get_employer(field: dict) -> entities.Employer:
@@ -33,4 +31,12 @@ def create_employer(employer: entities.Employer):
 
 
 def get_nearest_employer_in_coverage_area(address: valueobjects.Point) -> entities.Employer:
-    ...
+    db.neighborhoods.findOne({
+        'coverageArea': {
+            '$geoIntersects': {
+                '$geometry': {
+                    address
+                }
+            }
+        }
+    })
